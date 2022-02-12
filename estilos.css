@@ -276,6 +276,7 @@ body {
 
 .alert {
   pointer-events: none;
+  color: var(--color-tone-0);
   background-color: var(--color-tone-1);
   padding: 0.75em;
   border-radius: 0.25em;
@@ -379,7 +380,6 @@ body {
 }
 
 .guess-distribution {
-  color: white;
   margin-bottom: 1.25em;
   display: flex;
   flex-direction: column;
@@ -389,11 +389,13 @@ body {
 }
 
 .row {
+  color: var(--color-tone-1);
   display: flex;
   align-items: center;
 }
 
 .bar {
+  color: white;
   font-weight: bold;
   margin-left: 0.25em;
   padding: 0 0.5em;
