@@ -15344,7 +15344,6 @@ let currentBoard = JSON.parse(localStorage.getItem(LOCAL_CURRENT_BOARD_KEY))
 
 function rollNewWord() {
   let randomNumber = Math.round(Math.random() * targetWords.length)
-  console.log(targetWords[randomNumber])
   return targetWords[randomNumber]
 }
 
@@ -15696,5 +15695,3 @@ function restartKeys() {
     key.className = 'key'
   })
 }
-
-
