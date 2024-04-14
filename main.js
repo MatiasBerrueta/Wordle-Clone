@@ -15324,6 +15324,7 @@ const LOCAL_CURRENT_BOARD_KEY = 'current.board'
 const LOCAL_COLORBLIND_KEY = 'colorblind.option'
 const LOCAL_DARKTHEME_KEY = 'darktheme.option'
 const LOCAL_INFO_KEY = 'statistics.list'
+
 let statistics = JSON.parse(localStorage.getItem(LOCAL_INFO_KEY)) || {
   guesses: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0},
   totalFails: 0,
@@ -15337,34 +15338,35 @@ let darkTheme = JSON.parse(localStorage.getItem(LOCAL_DARKTHEME_KEY))
 let colorblind = JSON.parse(localStorage.getItem(LOCAL_COLORBLIND_KEY))
 let currentBoard = JSON.parse(localStorage.getItem(LOCAL_CURRENT_BOARD_KEY))
 
-// const offsetFromDate = new Date(2022, 0, 1)
-// const msOffset = Date.now() - offsetFromDate
-// const dayOffset = msOffset / 1000 / 60 / 60 / 24
-// const targetWord = targetWords[Math.floor(dayOffset)]
+const offsetFromDate = new Date(2024, 0, 1)
+const msOffset = Date.now() - offsetFromDate
+const dayOffset = msOffset / 1000 / 60 / 60 / 24
+const targetWord = targetWords[Math.floor(dayOffset)]
 
-function rollNewWord() {
-  let randomNumber = Math.round(Math.random() * targetWords.length)
-  return targetWords[randomNumber]
-}
+const today = new Date()
+const nextDay = new Date(today)
+nextDay.setDate(today.getDate() + 1)
 
-let targetWord = rollNewWord()
+console.log(nextDay)
+
+// function rollNewWord() {
+//   let randomNumber = Math.round(Math.random() * targetWords.length)
+//   return targetWords[randomNumber]
+// }
+
+// let targetWord = rollNewWord()
 
 hintMenuButton.addEventListener('click', showHintMenu)
-
 closeHintButton.addEventListener('click', closeHintMenu)
 
 statisticsButton.addEventListener('click', showStatisticsMenu)
-
 closeStatisticsButton.addEventListener('click', closeStatisticsMenu)
 
 settingsButton.addEventListener('click', showSettingsMenu)
-
 closeSettingsButton.addEventListener('click', closeSettingsMenu)
 
 darkThemeCheckbox.addEventListener('click', darkThemeMode)
-
 colorblindCheckbox.addEventListener('click', colorBlindMode)
-
 restartStatsButton.addEventListener('click', restartStats)
 
 if(darkTheme) {
@@ -15573,18 +15575,23 @@ function checkWinLose(guess, tiles) {
 }
 
 function loadStatistics() {
-  for(let i = 0; i < winsLocation.length; i++) winsLocation[i].textContent = statistics.guesses[i + 1]
-
   const guessesArr = Object.values(statistics.guesses)
-  const guessMax = guessesArr.indexOf(Math.max(...guessesArr))
   const guessMaxNumber = Math.max(...guessesArr)
+  const guessMax = guessesArr.indexOf(guessMaxNumber)
+  
+  if(guessMaxNumber === 0) return
 
-  winsLocation.forEach(win => {
+  for(let i = 0; i < winsLocation.length; i++) {
+    winsLocation[i].textContent = statistics.guesses[i + 1]
+  }
+
+  winsLocation.forEach((win) => {
     winsLocation[guessMax].classList.remove('highlighted')
     const width = 100 * (win.textContent / guessMaxNumber)
     if(width == 0) return
     win.style.width = `${width}%`
   })
+
   winsLocation[guessMax].classList.add('highlighted')
   totalPlays.textContent = statistics.totalPlays
   winRate.textContent = statistics.winRate
